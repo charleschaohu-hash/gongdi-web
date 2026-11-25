@@ -23,7 +23,7 @@
         b.onclick = function () { close(); resolve(i) };
         box.appendChild(b);
       });
-      var c = el('div', 'sheet-item cancel', '取消');
+      var c = el('div', 'sheet-item cancel', esc(window.I18N ? I18N.t('取消') : '取消'));
       c.onclick = function () { close(); resolve(-1) };
       box.appendChild(c);
       layer_reject = function () { resolve(-1) };
@@ -43,9 +43,9 @@
       } else if (o.content) box.appendChild(el('div', 'modal-body', esc(o.content).replace(/\n/g, '<br>')));
       var row = el('div', 'modal-btns');
       if (o.cancel !== false) {
-        var c = el('div', 'modal-btn', '取消'); c.onclick = function () { close(); resolve({ confirm: false }) }; row.appendChild(c);
+        var c = el('div', 'modal-btn', esc(o.cancelText || (window.I18N ? I18N.t('取消') : '取消'))); c.onclick = function () { close(); resolve({ confirm: false }) }; row.appendChild(c);
       }
-      var ok = el('div', 'modal-btn primary' + (o.danger ? ' danger' : ''), esc(o.confirmText || '确定'));
+      var ok = el('div', 'modal-btn primary' + (o.danger ? ' danger' : ''), esc(o.confirmText || (window.I18N ? I18N.t('确定') : '确定')));
       ok.onclick = function () { var v = inp ? inp.value : ''; close(); resolve({ confirm: true, content: v }) };
       row.appendChild(ok);
       box.appendChild(row);

@@ -12,26 +12,27 @@
 <body>
 <div class="desk-note">
   <h1>工地进度 <span>Site Tracker</span></h1>
-  <p>小型建筑 / 翻建团队的进度管理工具。原生微信小程序，这里是网页版演示。</p>
-  <p>示例数据全部虚构，日期按今天生成；你的改动只存在这个浏览器里。</p>
-  <p><a href="https://github.com/charleschaohu-hash/gongdi-web" target="_blank" rel="noopener">源码 · GitHub ↗</a></p>
+  <p data-i18n="小型建筑 / 翻建团队的进度管理工具。原生微信小程序，这里是网页版演示。">小型建筑 / 翻建团队的进度管理工具。原生微信小程序，这里是网页版演示。</p>
+  <p data-i18n="示例数据全部虚构，日期按今天生成；你的改动只存在这个浏览器里。">示例数据全部虚构，日期按今天生成；你的改动只存在这个浏览器里。</p>
+  <p><a href="https://github.com/charleschaohu-hash/gongdi-web" target="_blank" rel="noopener" data-i18n="源码 · GitHub ↗">源码 · GitHub ↗</a></p>
 </div>
 <div class="phone">
   <header class="nav">
     <a id="back" class="nav-back" href="#/sites" hidden>‹</a>
     <div id="navtitle" class="nav-title">工地进度</div>
-    <div class="nav-right"></div>
+    <div class="nav-right"><button id="lang" class="lang-btn" type="button" title="中 / EN">EN</button></div>
   </header>
   <main id="view" class="view"></main>
   <nav id="tabbar" class="tabbar">
-    <a href="#/sites" data-tab="sites"><span class="ico">🏗</span>工地</a>
-    <a href="#/today" data-tab="today"><span class="ico">☑</span>今日</a>
-    <a href="#/diary" data-tab="diary"><span class="ico">📓</span>日记</a>
-    <a href="#/calendar" data-tab="calendar"><span class="ico">📅</span>日历</a>
-    <a href="#/settings" data-tab="settings"><span class="ico">⚙</span>设置</a>
+    <a href="#/sites" data-tab="sites" data-label="工地"><span class="ico">🏗</span>工地</a>
+    <a href="#/today" data-tab="today" data-label="今日"><span class="ico">☑</span>今日</a>
+    <a href="#/diary" data-tab="diary" data-label="日记"><span class="ico">📓</span>日记</a>
+    <a href="#/calendar" data-tab="calendar" data-label="日历"><span class="ico">📅</span>日历</a>
+    <a href="#/settings" data-tab="settings" data-label="设置"><span class="ico">⚙</span>设置</a>
   </nav>
   <div id="toast" class="toast"></div>
 </div>
+<script src="js/i18n.js"></script>
 <script src="js/store.js"></script>
 <script src="js/demo.js"></script>
 <script src="js/ui.js"></script>

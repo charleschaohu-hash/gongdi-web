@@ -2,7 +2,7 @@
 
 **Progress tracking for a small construction / rebuild crew — built as a WeChat mini program, ported here to a plain web app so anyone can try it.**
 
-**[▶ Live demo](https://charleschaohu-hash.github.io/gongdi-web/)** — works on a phone or in a desktop browser (phone frame). Sample data is fictional and generated relative to today; your edits stay in your own browser.
+**[▶ Live demo](https://charleschaohu-hash.github.io/gongdi-web/)** — works on a phone or in a desktop browser (phone frame). English / 中文 toggle in the top-right corner. Sample data is fictional and generated relative to today; your edits stay in your own browser.
 
 <p align="center"><img src="docs/screenshots/hero.png" width="860" alt="Sites list, timeline, and today view"></p>
 
@@ -30,6 +30,8 @@ Sites (list + pipeline matrix) · Timeline per site · Today (due / overdue / wa
 
 <p align="center"><img src="docs/screenshots/02-matrix.png" width="200"> <img src="docs/screenshots/04-sheet.png" width="200"> <img src="docs/screenshots/06-calendar.png" width="200"> <img src="docs/screenshots/08-diary-edit.png" width="200"></p>
 
+<p align="center">Same app in Chinese: <img src="docs/screenshots/zh-01-sites.png" width="160"> <img src="docs/screenshots/zh-03-timeline.png" width="160"> <img src="docs/screenshots/zh-05-today.png" width="160"></p>
+
 ## How this repo is laid out
 
 ```
@@ -38,7 +40,8 @@ css/app.css         styles ported from the mini program's app.wxss (rpx → px)
 js/store.js         data layer — ported from miniprogram/utils/store.js; all business rules live here
 js/app.js           the 9 pages as a hash router + string templates
 js/ui.js            action sheet / modal / toast (replacements for wx.showActionSheet etc.)
-js/demo.js          fictional sample data, dated relative to today
+js/i18n.js          UI strings, Chinese ↔ English (keys are the original Chinese); date formats follow the language
+js/demo.js          fictional sample data in both languages, dated relative to today
 miniprogram-src/    the original WeChat mini program (WXML/WXSS/JS + cloud function), for comparison
 docs/screenshots/
 ```
@@ -59,7 +62,7 @@ MIT
 
 ## 中文说明
 
-小型建筑 / 翻建团队的工地进度管理工具。原生微信小程序，这里是网页移植版，任何人打开链接就能试：**https://charleschaohu-hash.github.io/gongdi-web/**
+小型建筑 / 翻建团队的工地进度管理工具。原生微信小程序，这里是网页移植版，任何人打开链接就能试：**https://charleschaohu-hash.github.io/gongdi-web/**（右上角可切换中英文）
 
 **它解决什么**：一家"买旧房 → 拆 → 重建 → 卖"的小开发商，十来个工地靠微信群、脑子和纸在管。通用项目管理软件不合适——工地上的日期是"到了才知道"，而且一道工序延误会把后面全部拖住。这套工具就是从这些真实痛点里长出来的，老板和助理经理每天在用。
 

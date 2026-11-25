@@ -5,6 +5,10 @@
 (function (global) {
   var KEY = 'gd_web_v1';
   var WD = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+  var WD_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var MON_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function en() { return window.I18N && I18N.lang === 'en' }
+  function t(k, v) { return window.I18N ? I18N.t(k, v) : k }
   var CACHE = null;
   var FILTER = [];   // 今日/日历共用的工地筛选（siteId 数组，空=全部）
 
@@ -13,8 +17,9 @@
   function isoOf(y, m, d) { return y + '-' + pad(m + 1) + '-' + pad(d) }
   function parse(s) { var a = s.split('-'); return new Date(+a[0], +a[1] - 1, +a[2]) }
   function today() { return iso(new Date()) }
-  function fmt(s) { if (!s) return ''; var d = parse(s); return (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + WD[d.getDay()] }
-  function fmtShort(s) { if (!s) return ''; var d = parse(s); return (d.getMonth() + 1) + '月' + d.getDate() + '日' }
+  function fmt(s) { if (!s) return ''; var d = parse(s); return en() ? (WD_EN[d.getDay()] + ', ' + MON_EN[d.getMonth()] + ' ' + d.getDate()) : ((d.getMonth() + 1) + '月' + d.getDate() + '日 ' + WD[d.getDay()]) }
+  function fmtShort(s) { if (!s) return ''; var d = parse(s); return en() ? (MON_EN[d.getMonth()] + ' ' + d.getDate()) : ((d.getMonth() + 1) + '月' + d.getDate() + '日') }
+  function fmtMonth(y, m) { return en() ? (MON_EN[m] + ' ' + y) : (y + '年' + (m + 1) + '月') }
   function addDays(s, n) { var d = parse(s); d.setDate(d.getDate() + n); return iso(d) }
   function diff(a, b) { if (!a || !b) return 0; return Math.round((parse(a) - parse(b)) / 86400000) }
   function genId(p) { return p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6) }
@@ -22,8 +27,8 @@
   function empty() {
     return {
       sites: [], stages: [], tasks: [], delays: [], diaries: [],
-      template: ['图纸与设计', '拆除', '地基', '结构', '外墙', '水电', '内装', '验收与CO'],
-      quick: ['联系材料送货', '约检查员', '安排工人进场', '催报价'], seq: 1
+      template: ['图纸与设计', '拆除', '地基', '结构', '外墙', '水电', '内装', '验收与CO'].map(function (k) { return t(k) }),
+      quick: ['联系材料送货', '约检查员', '安排工人进场', '催报价'].map(function (k) { return t(k) }), seq: 1
     };
   }
   function readStorage() {
@@ -166,14 +171,14 @@
   }
   function sysLines(d, date, siteId) {
     var out = [];
-    d.tasks.forEach(function (t) {
-      if (t.siteId !== siteId) return;
-      if (t.st === 'done' && t.doneDate === date) out.push('✓ ' + t.name + ' · 完成');
+    d.tasks.forEach(function (tk) {
+      if (tk.siteId !== siteId) return;
+      if (tk.st === 'done' && tk.doneDate === date) out.push(t('✓ {n} · 完成', { n: tk.name }));
     });
     d.delays.forEach(function (x) {
       if (x.siteId !== siteId || x.date !== date) return;
-      var t = getTask(d, x.taskId);
-      out.push('⏱ ' + (t ? t.name : '任务') + ' · 记延迟' + x.days + '天' + (x.reason ? ':' + x.reason : ''));
+      var tk = getTask(d, x.taskId);
+      out.push(t('⏱ {n} · 记延迟{d}天', { n: tk ? tk.name : t('任务'), d: x.days }) + (x.reason ? ': ' + x.reason : ''));
     });
     return out;
   }
@@ -181,7 +186,7 @@
   global.S = {
     load: load, persist: persist, resetAll: resetAll, replaceAll: replaceAll, hasData: hasData,
     getFilter: getFilter, setFilter: setFilter, delayCount: delayCount,
-    today: today, iso: iso, isoOf: isoOf, fmt: fmt, fmtShort: fmtShort, addDays: addDays, diff: diff, genId: genId,
+    today: today, iso: iso, isoOf: isoOf, fmt: fmt, fmtShort: fmtShort, fmtMonth: fmtMonth, addDays: addDays, diff: diff, genId: genId,
     getSite: getSite, getStage: getStage, getTask: getTask, siteDelay: siteDelay, taskMeta: taskMeta,
     createSite: createSite, updateSiteNote: updateSiteNote, setSiteTag: setSiteTag,
     addTask: addTask, updateTask: updateTask, removeTask: removeTask, completeTask: completeTask,
