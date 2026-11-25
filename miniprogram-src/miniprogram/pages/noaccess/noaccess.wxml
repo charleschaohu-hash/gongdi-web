@@ -1,0 +1,24 @@
+<view class="page" style="padding-top:100rpx; text-align:center;">
+  <block wx:if="{{reason === 'offline'}}">
+    <text style="font-size:60rpx;">📡</text>
+    <view style="font-size:32rpx; font-weight:600; margin:20rpx 0 8rpx;">连不上云端</view>
+    <text class="muted small" style="display:block; padding:0 40rpx;">首次使用需要联网。请确认网络后重试;若反复失败,把下方灰色报错发给管理员。</text>
+    <view style="max-width:480rpx; margin:30rpx auto 0;">
+      <button class="btn" bindtap="retry" disabled="{{busy}}">{{busy ? '连接中…' : '重试'}}</button>
+    </view>
+  </block>
+  <block wx:else>
+    <text style="font-size:60rpx;">🔒</text>
+    <view style="font-size:32rpx; font-weight:600; margin:20rpx 0 8rpx;">公司内部工具</view>
+    <text class="muted small">{{reason === 'disabled' ? '你的账号已被停用,请联系管理员' : '需要邀请码才能进入'}}</text>
+    <view style="max-width:480rpx; margin:40rpx auto 0; text-align:left;">
+      <view class="field"><text class="lab">邀请码</text>
+        <input value="{{code}}" bindinput="inCode" placeholder="6位邀请码" /></view>
+      <view class="field"><text class="lab">你的名字(给同事看的)</text>
+        <input value="{{name}}" bindinput="inName" placeholder="例:小王" /></view>
+      <button class="btn" bindtap="submit" disabled="{{busy}}">{{busy ? '验证中…' : '进入'}}</button>
+      <button class="btn ghost" bindtap="retry" disabled="{{busy}}">重新连接</button>
+    </view>
+  </block>
+  <text wx:if="{{err}}" class="muted" style="display:block; font-size:20rpx; margin-top:40rpx; padding:0 30rpx; word-break:break-all;">{{err}}</text>
+</view>

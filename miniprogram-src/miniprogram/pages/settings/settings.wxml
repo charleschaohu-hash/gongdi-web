@@ -1,0 +1,77 @@
+<view class="page">
+  <view class="sec">团队</view>
+  <view class="card">
+    <view class="row">
+      <text class="grow" bindtap="rename">{{meName}}<text class="muted small"> · {{meRole}} · 点击改名</text></text>
+      <text wx:if="{{isAdmin}}" class="chip sm" bindtap="invite">生成邀请码</text>
+    </view>
+    <view wx:if="{{isAdmin && members.length > 1}}" style="margin-top:10rpx; border-top:1rpx solid #F0EEE6; padding-top:10rpx;">
+      <text class="muted small" style="display:block; line-height:1.9;">点成员可改角色或停用:</text>
+      <view class="row" style="padding:8rpx 0;" wx:for="{{members}}" wx:key="openid" bindtap="memberMenu" data-oid="{{item.openid}}">
+        <text class="grow small" style="color:{{item.status === 'active' ? '#1F1E26' : '#8C8A94'}};">{{item.name}}{{item.openid === myOpen ? '(我)' : ''}}</text>
+        <text class="tag {{item.role === 'admin' ? 'purple' : 'amber'}}">{{item.role === 'admin' ? '管理员' : '员工'}}</text>
+        <text wx:if="{{item.status !== 'active'}}" class="tag" style="background:#F0EEE6;color:#8C8A94;">已停用</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="sec">任务动态提醒 · 别人完成/延迟任务时推送给我</view>
+  <view class="card" style="padding:12rpx 24rpx;">
+    <view class="row" style="padding:14rpx 0; border-bottom:1rpx solid #F0EEE6;">
+      <text class="muted small" style="width:80rpx;">范围</text>
+      <picker class="grow" mode="selector" range="{{scopeNames}}" value="{{scopeIdx}}" bindchange="pickScope">
+        <view>{{scopeNames[scopeIdx]}} ▾</view></picker>
+    </view>
+    <view class="row" style="padding:14rpx 0;">
+      <text class="muted small" style="width:80rpx;">方式</text>
+      <picker class="grow" mode="selector" range="{{modeNames}}" value="{{modeIdx}}" bindchange="pickMode">
+        <view>{{modeNames[modeIdx]}} ▾</view></picker>
+    </view>
+  </view>
+
+  <view class="sec">推送额度</view>
+  <view class="card">
+    <view class="row">
+      <text class="grow">当前可用 <text style="font-weight:600; color:#534AB7;">{{quota}}</text> 条</text>
+      <text class="chip sm" bindtap="addQuota">＋ 补充额度</text>
+    </view>
+    <text class="small" style="display:block; color:#55535E; line-height:1.7; margin-top:8rpx;">微信规定:收一条推送用掉一个额度。平时点保存/完成时会静默申请(首次弹窗请勾"总是保持以上选择"再点允许)。老板不常操作的话,请他来这里点几下"补充额度"。</text>
+    <text class="muted small" style="display:block; margin-top:8rpx;">定时推送器:{{cronTxt}}</text>
+  </view>
+
+  <block wx:if="{{isAdmin}}">
+  <view class="sec">阶段模板 · 新建工地时带出</view>
+  <view class="card" style="padding:12rpx 24rpx;">
+    <view class="row" style="padding:14rpx 0; border-bottom:1rpx solid #F0EEE6;" wx:for="{{tpl}}" wx:key="k">
+      <text class="muted small" style="width:40rpx;">{{index + 1}}</text>
+      <text class="grow">{{item.t}}</text>
+      <text class="muted" bindtap="rmTpl" data-i="{{index}}">✕</text>
+    </view>
+    <view class="row" style="padding:14rpx 0;">
+      <input class="grow" value="{{newTpl}}" bindinput="inTpl" placeholder="加一个阶段" />
+      <text class="chip sm" bindtap="addTpl">加</text>
+    </view>
+  </view>
+
+  <view class="sec">下一步快捷按钮 · 工序完成后弹出</view>
+  <view class="card" style="padding:12rpx 24rpx;">
+    <view class="row" style="padding:14rpx 0; border-bottom:1rpx solid #F0EEE6;" wx:for="{{quick}}" wx:key="k">
+      <text class="grow">{{item.t}}</text>
+      <text class="muted" bindtap="rmQk" data-i="{{index}}">✕</text>
+    </view>
+    <view class="row" style="padding:14rpx 0;">
+      <input class="grow" value="{{newQk}}" bindinput="inQk" placeholder="加一个快捷按钮" />
+      <text class="chip sm" bindtap="addQk">加</text>
+    </view>
+  </view>
+
+  </block>
+
+  <view class="sec">数据 · 云端同步</view>
+  <view class="card">
+    <text class="small" style="display:block; color:#55535E; line-height:1.7;">数据存在公司云端,你和同事共享。切回微信超过5分钟会自动拉一次;改动离线时先存本机,联网后自动补传。</text>
+  </view>
+  <button class="btn ghost" bindtap="refresh">从云端刷新</button>
+  <button wx:if="{{isAdmin}}" class="btn ghost" bindtap="migrate">迁移本地旧数据上云</button>
+  <button wx:if="{{isAdmin}}" class="btn ghost" bindtap="importReal">导入真实数据(十个工地+8月日志)</button>
+</view>

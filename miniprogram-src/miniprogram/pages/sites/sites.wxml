@@ -1,0 +1,48 @@
+<view class="page">
+  <view class="seg" wx:if="{{isAdmin}}">
+    <view class="seg-item {{view === 'list' ? 'on' : ''}}" bindtap="setView" data-v="list">列表</view>
+    <view class="seg-item {{view === 'matrix' ? 'on' : ''}}" bindtap="setView" data-v="matrix">总览</view>
+  </view>
+
+  <block wx:if="{{view === 'list'}}">
+    <view wx:if="{{!list.length}}" class="empty">{{isAdmin ? '还没有工地。点下面新建第一个,阶段模板会自动带出。' : '还没有指派给你的任务。管理员指派后,相关工地会出现在这里。'}}</view>
+    <view class="card" wx:for="{{list}}" wx:key="id" bindtap="open" data-id="{{item.id}}">
+      <view class="row">
+        <text class="title">{{item.name}}</text>
+        <text wx:if="{{item.tag !== '在建'}}" class="tag purple">{{item.tag}}</text>
+        <text class="badge {{item.n ? 'warn' : 'ok'}}">{{item.n ? ('今日 ' + item.n + ' 项') : '今日无事'}}</text>
+      </view>
+      <text class="muted small">{{item.addr || '未填地址'}} · 当前:{{item.cur}}</text>
+      <text wx:if="{{item.note}}" class="small" style="display:block; margin-top:6rpx; color:#55535E; line-height:1.6;">📌 {{item.note}}</text>
+      <view class="bar"><view class="bar-in" style="width:{{item.pct}}%"></view></view>
+      <text class="muted small">任务完成 {{item.pct}}%<text wx:if="{{item.delay}}" class="danger"> · 累计延迟{{item.delay}}天</text></text>
+    </view>
+    <view wx:if="{{isAdmin}}" class="dashed" bindtap="add">＋ 新建工地</view>
+  </block>
+
+  <block wx:else>
+    <text class="muted small" style="display:block; margin:0 4rpx 12rpx;">{{summary}} · 点任意行跳到该工地</text>
+    <view class="card" style="padding:16rpx 12rpx 12rpx;">
+      <view class="mrow head">
+        <view class="mname"></view>
+        <view class="mcell" wx:for="{{cols}}" wx:key="k"><text class="mcol">{{item.t}}</text></view>
+      </view>
+      <view class="mrow" wx:for="{{rows}}" wx:key="id" bindtap="open" data-id="{{item.id}}">
+        <view class="mname"><text>{{item.name}}</text></view>
+        <view class="mcell" wx:for="{{item.cells}}" wx:for-item="c" wx:key="k">
+          <view class="dot {{c.c}}"></view>
+        </view>
+      </view>
+      <view class="mrow" wx:for="{{selling}}" wx:key="id" bindtap="open" data-id="{{item.id}}">
+        <view class="mname"><text class="muted">{{item.name}}</text></view>
+        <text class="muted small" style="padding-left:8rpx;">在售 · 不在管线内</text>
+      </view>
+      <view class="legend muted small">
+        <text><view class="dot done inline"></view> 完成</text>
+        <text><view class="dot current inline"></view> 进行中</text>
+        <text><view class="dot parallel inline"></view> 并行</text>
+        <text><view class="dot wait inline"></view> 等待中</text>
+      </view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,57 @@
+<view class="page">
+  <view wx:if="{{ro}}" class="badge purple" style="display:block; text-align:center; margin-bottom:14rpx;">👀 {{authorName}} 的日记 · 只读</view>
+  <view class="row" style="margin:0 4rpx 14rpx;">
+    <text class="title">{{dateTxt}}</text>
+    <input value="{{weather}}" bindinput="inWeather" placeholder="天气(可空)" disabled="{{ro}}"
+           style="width:180rpx; text-align:right; font-size:26rpx;" />
+  </view>
+
+  <view class="card" wx:for="{{blocks}}" wx:for-item="b" wx:key="siteId">
+    <view class="row">
+      <text class="grow" style="font-size:28rpx; font-weight:600;">📍 {{b.siteName}}</text>
+      <text wx:if="{{!ro}}" class="muted" bindtap="rmBlock" data-i="{{index}}">✕</text>
+    </view>
+    <view wx:if="{{b.sys.length}}" style="background:#FAF9F5; border-radius:12rpx; padding:12rpx 16rpx; margin:10rpx 0;">
+      <text class="muted small" style="display:block; margin-bottom:4rpx;">系统记录 · 自动带入</text>
+      <text class="small" style="display:block; color:#55535E; line-height:1.7;"
+            wx:for="{{b.sys}}" wx:for-item="ln" wx:key="k">{{ln.t}}</text>
+    </view>
+    <view class="field" style="margin-top:10rpx;"><text class="lab">人数(如:砌砖2、杂活3)</text>
+      <input value="{{b.workers}}" bindinput="inB" data-i="{{index}}" data-f="workers" disabled="{{ro}}" placeholder="留空跳过" /></view>
+    <view class="field"><text class="lab">事件</text>
+      <textarea value="{{b.events}}" bindinput="inB" data-i="{{index}}" data-f="events" disabled="{{ro}}" auto-height
+                placeholder="今天发生了什么,自由写" style="width:100%;" /></view>
+    <view class="field"><text class="lab">订货</text>
+      <input value="{{b.orders}}" bindinput="inB" data-i="{{index}}" data-f="orders" disabled="{{ro}}" placeholder="留空跳过" /></view>
+    <view class="field"><text class="lab">花销</text>
+      <input value="{{b.spend}}" bindinput="inB" data-i="{{index}}" data-f="spend" disabled="{{ro}}" placeholder="如:$40 小费·现金" /></view>
+    <view class="field" style="margin-bottom:0;"><text class="lab">看房</text>
+      <textarea value="{{b.showing}}" bindinput="inB" data-i="{{index}}" data-f="showing" disabled="{{ro}}" auto-height
+                placeholder="经纪人、客人反应、意向(留空跳过)" style="width:100%;" /></view>
+  </view>
+
+  <view wx:if="{{!ro}}" class="dashed" bindtap="addBlock">＋ 添加工地板块</view>
+
+  <view class="card" wx:if="{{waits.length}}">
+    <text style="font-size:28rpx; font-weight:600; display:block; margin-bottom:8rpx;">跟进中 · 挂起任务</text>
+    <text class="small" style="display:block; color:#55535E; line-height:1.8;"
+          wx:for="{{waits}}" wx:key="id">◌ {{item.name}} · {{item.m}} · 已等待{{item.wd}}天</text>
+  </view>
+
+  <view class="card">
+    <text style="font-size:28rpx; font-weight:600; display:block; margin-bottom:10rpx;">明日事项</text>
+    <view class="row" style="padding:10rpx 0; border-bottom:1rpx solid #F0EEE6;"
+          wx:for="{{tomorrow}}" wx:key="k">
+      <text class="grow {{item.cv ? 'muted' : ''}}" style="font-size:26rpx;">{{item.text}}</text>
+      <text wx:if="{{!item.cv && !ro}}" class="chip sm" bindtap="cvTm" data-i="{{index}}">转为任务</text>
+      <text wx:if="{{item.cv}}" class="badge ok">✓ 已转</text>
+      <text wx:if="{{!ro}}" class="muted" bindtap="rmTm" data-i="{{index}}" style="margin-left:10rpx;">✕</text>
+    </view>
+    <view class="row" wx:if="{{!ro}}" style="padding:12rpx 0 2rpx;">
+      <input class="grow" value="{{newTm}}" bindinput="inTm" placeholder="写一条明天要做的事" />
+      <text class="chip sm" bindtap="addTm">加</text>
+    </view>
+  </view>
+
+  <button class="btn" wx:if="{{!ro}}" bindtap="save">保存日记</button>
+</view>

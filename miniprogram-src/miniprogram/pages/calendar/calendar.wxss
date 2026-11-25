@@ -1,0 +1,10 @@
+.grid { display: flex; flex-wrap: wrap; }
+.grid.head text { width: 14.28%; text-align: center; font-size: 22rpx; color: #8C8A94; padding: 8rpx 0; }
+.cell { width: 14.28%; text-align: center; padding: 8rpx 0 4rpx; min-height: 84rpx; }
+.daynum { width: 56rpx; height: 56rpx; line-height: 56rpx; margin: 0 auto; border-radius: 50%; font-size: 26rpx; }
+.daynum.sel { background: #534AB7; color: #FFFFFF; }
+.daynum.today { background: #EEEDFE; color: #3C3489; }
+.dots { display: flex; justify-content: center; gap: 4rpx; height: 12rpx; margin-top: 2rpx; }
+.dotc { display: inline-block; width: 10rpx; height: 10rpx; border-radius: 50%; }
+.legend { justify-content: center; gap: 24rpx; font-size: 22rpx; margin: 10rpx 0 6rpx; }
+.legend .dotc { margin-right: 4rpx; }

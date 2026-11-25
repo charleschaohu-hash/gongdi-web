@@ -1,0 +1,36 @@
+page { background: #F7F6F2; font-size: 28rpx; color: #1F1E26; }
+.page { padding: 24rpx 24rpx 40rpx; }
+.card { background: #FFFFFF; border: 1rpx solid #E8E6DE; border-radius: 20rpx; padding: 24rpx; margin-bottom: 18rpx; }
+.row { display: flex; align-items: center; gap: 12rpx; }
+.grow { flex: 1; }
+.title { font-size: 32rpx; font-weight: 600; flex: 1; }
+.muted { color: #8C8A94; }
+.small { font-size: 24rpx; }
+.danger { color: #A32D2D; }
+.green { color: #0F6E56; }
+.badge { font-size: 22rpx; padding: 4rpx 18rpx; border-radius: 20rpx; }
+.badge.warn { background: #FAEEDA; color: #633806; }
+.badge.ok { background: #E1F5EE; color: #085041; }
+.badge.purple { background: #EEEDFE; color: #3C3489; }
+.tag { font-size: 20rpx; padding: 2rpx 14rpx; border-radius: 16rpx; }
+.tag.amber { background: #FAEEDA; color: #633806; }
+.tag.purple { background: #EEEDFE; color: #3C3489; }
+.chip { font-size: 24rpx; padding: 8rpx 20rpx; border-radius: 28rpx; border: 1rpx solid #C9C6BC; color: #55535E; }
+.chip.sm { font-size: 22rpx; padding: 4rpx 16rpx; }
+.bar { height: 10rpx; border-radius: 6rpx; background: #EFEDE6; margin: 14rpx 0 8rpx; overflow: hidden; }
+.bar-in { height: 10rpx; border-radius: 6rpx; background: #7F77DD; }
+.dashed { border: 1rpx dashed #C9C6BC; border-radius: 20rpx; padding: 22rpx; text-align: center; color: #534AB7; margin-bottom: 18rpx; }
+.empty { text-align: center; color: #8C8A94; padding: 60rpx 0 30rpx; font-size: 26rpx; }
+.sec { font-size: 24rpx; color: #8C8A94; margin: 20rpx 4rpx 10rpx; }
+.trow { display: flex; align-items: flex-start; gap: 16rpx; background: #FFFFFF; border: 1rpx solid #E8E6DE; border-radius: 16rpx; padding: 20rpx; margin-bottom: 12rpx; }
+.trow.od { border-left: 6rpx solid #E24B4A; }
+.tname { font-size: 28rpx; }
+.tname.done { text-decoration: line-through; color: #8C8A94; }
+.desc { display: block; font-size: 22rpx; color: #8C8A94; font-style: italic; margin-top: 4rpx; }
+.btn { background: #534AB7; color: #FFFFFF; border-radius: 16rpx; font-size: 28rpx; margin-top: 10rpx; }
+.btn::after { border: none; }
+.btn.ghost { background: #FFFFFF; color: #55535E; border: 1rpx solid #C9C6BC; }
+.btn.danger { background: #FFFFFF; color: #A32D2D; border: 1rpx solid #E0B4B4; }
+.field { background: #FFFFFF; border: 1rpx solid #E8E6DE; border-radius: 16rpx; padding: 20rpx; margin-bottom: 16rpx; }
+.field .lab { font-size: 22rpx; color: #8C8A94; display: block; margin-bottom: 6rpx; }
+.addlink { display: block; color: #534AB7; font-size: 24rpx; padding: 12rpx 0 2rpx; }

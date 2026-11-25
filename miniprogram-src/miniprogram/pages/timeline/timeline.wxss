@@ -1,0 +1,13 @@
+.tl { position: relative; padding-left: 44rpx; }
+.tl::before { content: ''; position: absolute; left: 14rpx; top: 12rpx; bottom: 12rpx; width: 3rpx; background: #E0DDD3; }
+.tl-item { position: relative; margin-bottom: 22rpx; }
+.dot { position: absolute; left: -38rpx; top: 10rpx; width: 20rpx; height: 20rpx; border-radius: 50%;
+  background: #FFFFFF; border: 3rpx solid #C9C6BC; z-index: 1; }
+.dot.current { width: 26rpx; height: 26rpx; left: -41rpx; top: 6rpx; background: #EEEDFE; border: 4rpx solid #7F77DD; }
+.dot.done { background: #5DCAA5; border-color: #5DCAA5; }
+.stgname { font-size: 30rpx; font-weight: 600; }
+.kn { font-size: 20rpx; color: #534AB7; font-weight: 400; }
+.task { border-top: 1rpx solid #F0EEE6; padding: 16rpx 0; }
+.kidblk { margin-top: 16rpx; padding: 16rpx; background: #FAF9F5; border: 1rpx dashed #C9C6BC; border-radius: 14rpx; }
+.chip.current { background: #EEEDFE; color: #3C3489; border-color: #7F77DD; }
+.chip.done { background: #E1F5EE; color: #085041; border-color: #5DCAA5; }

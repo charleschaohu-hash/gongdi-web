@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/sites/sites",
+    "pages/today/today",
+    "pages/calendar/calendar",
+    "pages/settings/settings",
+    "pages/diaryedit/diaryedit",
+    "pages/diary/diary",
+    "pages/timeline/timeline",
+    "pages/newsite/newsite",
+    "pages/taskedit/taskedit",
+    "pages/noaccess/noaccess"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#F7F6F2",
+    "navigationBarTitleText": "工地进度",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F7F6F2"
+  },
+  "tabBar": {
+    "color": "#8C8A94",
+    "selectedColor": "#534AB7",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/sites/sites",
+        "text": "工地"
+      },
+      {
+        "pagePath": "pages/today/today",
+        "text": "今日"
+      },
+      {
+        "pagePath": "pages/diary/diary",
+        "text": "日记"
+      },
+      {
+        "pagePath": "pages/calendar/calendar",
+        "text": "日历"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "设置"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

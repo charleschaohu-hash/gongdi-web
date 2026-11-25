@@ -1,0 +1,58 @@
+<view class="page">
+  <view class="card" style="padding:18rpx 24rpx;" bindtap="editNote">
+    <view class="row">
+      <text class="grow" style="font-size:27rpx; line-height:1.6; color:{{note ? '#1F1E26' : '#8C8A94'}};">{{note || '点这里写一句现状便签,如:等CO和final survey'}}</text>
+      <text wx:if="{{isAdmin}}" class="muted small">✎</text>
+    </view>
+    <text wx:if="{{noteDate}}" class="muted small">{{noteDate}} 更新</text>
+  </view>
+  <view class="muted small" style="margin:0 4rpx 16rpx;">
+    <text wx:if="{{start}}">开工 {{start}} · </text><text wx:if="{{delay}}" class="danger">累计延迟{{delay}}天</text>
+    <text wx:else class="green">未延迟</text>
+  </view>
+  <view class="tl">
+    <view class="tl-item" wx:for="{{tops}}" wx:for-item="tp" wx:key="stage.id">
+      <view class="dot {{tp.stage.status}}"></view>
+      <view class="card" style="margin-bottom:0;" bindtap="tgl" data-id="{{tp.stage.id}}">
+        <view class="row">
+          <text class="stgname grow">{{tp.stage.name}}<text wx:if="{{tp.kn}}" class="kn"> 含{{tp.kn}}</text></text>
+          <text class="chip sm {{tp.stage.status}}" catchtap="stageMenu" data-id="{{tp.stage.id}}">{{tp.stTxt}}</text>
+          <text wx:if="{{isAdmin}}" class="chip sm" catchtap="merge" data-id="{{tp.stage.id}}">并入…</text>
+          <text class="muted small">{{tp.open ? '▲' : '▼'}}</text>
+        </view>
+        <text class="muted small">{{tp.sub}}</text>
+        <block wx:if="{{tp.open}}">
+          <view class="kidblk" wx:for="{{tp.kids}}" wx:for-item="kd" wx:key="stage.id">
+            <view class="row">
+              <text class="grow" style="font-size:26rpx;font-weight:600;">⛓ {{kd.stage.name}}(并行子阶段)</text>
+              <text class="chip sm {{kd.stage.status}}" catchtap="stageMenu" data-id="{{kd.stage.id}}">{{kd.stage.status === 'done' ? '已完成' : (kd.stage.status === 'current' ? '进行中' : '未开始')}}</text>
+              <text wx:if="{{isAdmin}}" class="chip sm" catchtap="unmerge" data-id="{{kd.stage.id}}">恢复独立</text>
+            </view>
+            <view class="task" wx:for="{{kd.tasks}}" wx:for-item="t" wx:key="id" catchtap="tapTask" data-id="{{t.id}}">
+              <view class="row">
+                <text class="tname grow {{t.st === 'done' ? 'done' : ''}}">{{t.name}}</text>
+                <text wx:if="{{t.proc && t.st !== 'done'}}" class="tag amber">工序</text>
+                <text wx:if="{{t.st === 'wait'}}" class="tag purple">挂起</text>
+                <text wx:if="{{t.who}}" class="tag purple">{{t.who}}</text>
+              </view>
+              <text class="muted small">{{t.dateTxt}}</text>
+              <text wx:if="{{t.desc}}" class="desc">{{t.desc}}</text>
+            </view>
+            <text class="addlink" catchtap="addTask" data-id="{{kd.stage.id}}">＋ 添加任务</text>
+          </view>
+          <view class="task" wx:for="{{tp.tasks}}" wx:for-item="t" wx:key="id" catchtap="tapTask" data-id="{{t.id}}">
+            <view class="row">
+              <text class="tname grow {{t.st === 'done' ? 'done' : ''}}">{{t.name}}</text>
+              <text wx:if="{{t.proc && t.st !== 'done'}}" class="tag amber">工序</text>
+              <text wx:if="{{t.st === 'wait'}}" class="tag purple">挂起</text>
+              <text wx:if="{{t.who}}" class="tag purple">{{t.who}}</text>
+            </view>
+            <text class="muted small">{{t.dateTxt}}</text>
+            <text wx:if="{{t.desc}}" class="desc">{{t.desc}}</text>
+          </view>
+          <text class="addlink" catchtap="addTask" data-id="{{tp.stage.id}}">＋ 添加任务</text>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

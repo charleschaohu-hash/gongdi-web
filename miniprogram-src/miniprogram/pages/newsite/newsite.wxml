@@ -1,0 +1,22 @@
+<view class="page">
+  <view class="field"><text class="lab">名称</text>
+    <input value="{{name}}" bindinput="inName" placeholder="例:Newark Ave 项目" /></view>
+  <view class="field"><text class="lab">地址(可空)</text>
+    <input value="{{addr}}" bindinput="inAddr" placeholder="例:120 Newark Ave, Jersey City" /></view>
+  <view class="field"><text class="lab">开工日期</text>
+    <picker mode="date" value="{{date}}" bindchange="pickDate"><view>{{date}}</view></picker></view>
+  <view class="sec">阶段(默认模板 · 可删可加)</view>
+  <view class="card" style="padding:12rpx 24rpx;">
+    <view class="row" style="padding:14rpx 0; border-bottom:1rpx solid #F0EEE6;"
+          wx:for="{{stageRows}}" wx:key="k">
+      <text class="muted small" style="width:40rpx;">{{index + 1}}</text>
+      <text class="grow">{{item.t}}</text>
+      <text class="muted" bindtap="rm" data-i="{{index}}">✕</text>
+    </view>
+    <view class="row" style="padding:14rpx 0;">
+      <input class="grow" value="{{newStg}}" bindinput="inNew" placeholder="加一个自定义阶段" />
+      <text class="chip sm" bindtap="addStg">加</text>
+    </view>
+  </view>
+  <button class="btn" bindtap="create">创建工地</button>
+</view>

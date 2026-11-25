@@ -1,0 +1,18 @@
+<view class="page">
+  <view class="dashed" bindtap="writeToday">{{hasToday ? '✎ 继续写今天的日记' : '✎ 写今天的日记'}}</view>
+  <scroll-view scroll-x style="white-space:nowrap; margin-bottom:16rpx;">
+    <text class="chip sm" style="margin-right:10rpx; {{filterId === item.id ? 'background:#EEEDFE;color:#3C3489;border-color:#7F77DD;' : ''}}"
+          wx:for="{{filters}}" wx:key="id" bindtap="setFilter" data-id="{{item.id}}">{{item.name}}</text>
+  </scroll-view>
+  <view wx:if="{{!list.length}}" class="empty">还没有日记。每天的任务完成和延迟会自动带进当天的日记里,你只补人数、事件、订货这些。</view>
+  <view class="card" wx:for="{{list}}" wx:key="id" bindtap="open" data-id="{{item.id}}">
+    <view class="row">
+      <text class="title">{{item.dateTxt}}</text>
+      <text wx:if="{{item.author}}" class="tag purple">{{item.author}} 的日记</text>
+      <text class="muted small">{{item.weather}}</text>
+    </view>
+    <text class="muted small" style="display:block;">{{item.sites}}</text>
+    <text wx:if="{{item.snip}}" class="small" style="display:block; margin-top:8rpx; color:#55535E; line-height:1.6;">{{item.snip}}</text>
+    <text wx:if="{{item.tm}}" class="muted small" style="display:block; margin-top:6rpx;">明日事项 {{item.tm}} 条</text>
+  </view>
+</view>

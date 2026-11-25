@@ -1,0 +1,81 @@
+<view class="page">
+  <view class="row" style="margin:0 4rpx 12rpx;">
+    <text class="title">{{dateTxt}}</text>
+    <text class="muted small">{{count}}</text>
+  </view>
+  <scroll-view wx:if="{{chips.length}}" scroll-x style="white-space:nowrap; margin-bottom:12rpx;">
+    <text class="chip sm" style="margin-right:10rpx; {{!filtered ? 'background:#EEEDFE;color:#3C3489;border-color:#7F77DD;' : ''}}" bindtap="tapChip" data-id="all">全部</text>
+    <text class="chip sm" style="margin-right:10rpx; {{item.on ? 'background:#EEEDFE;color:#3C3489;border-color:#7F77DD;' : ''}}"
+          wx:for="{{chips}}" wx:key="id" bindtap="tapChip" data-id="{{item.id}}">{{item.on ? '✓ ' : ''}}{{item.name}}</text>
+  </scroll-view>
+  <view wx:if="{{siteNotes.length}}" style="background:#EEEDFE; border-radius:14rpx; padding:12rpx 18rpx; margin-bottom:14rpx;">
+    <text class="small" style="display:block; color:#3C3489; line-height:1.7;" wx:for="{{siteNotes}}" wx:key="id">📌 <text wx:if="{{siteNotes.length > 1}}">{{item.name}}:</text>{{item.note}}</text>
+  </view>
+
+  <view wx:if="{{notes.length}}" style="background:#FAEEDA; border:1rpx solid #F0D9A8; border-radius:16rpx; padding:16rpx 20rpx; margin-bottom:16rpx;">
+    <view class="row">
+      <text class="grow" style="font-size:24rpx; color:#633806; font-weight:600;">📮 有 {{notes.length}} 条未能推送到微信的提醒(额度不足)</text>
+      <text class="chip sm" bindtap="gotNotes">知道了</text>
+    </view>
+    <text class="small" style="display:block; color:#633806; line-height:1.7; margin-top:6rpx;" wx:for="{{notes}}" wx:key="k">· {{item.text}}</text>
+    <text class="muted small" style="display:block; margin-top:6rpx;">去 设置 → 推送额度 点一下"补充额度",之后的提醒才能推到微信。</text>
+  </view>
+
+  <view class="sec">今日任务 · 点任务弹出操作</view>
+  <view wx:if="{{!todayL.length}}" class="muted small" style="margin:0 4rpx 10rpx;">今天没有任务</view>
+  <view class="trow {{item.od ? 'od' : ''}}" wx:for="{{todayL}}" wx:key="id" bindtap="tap" data-id="{{item.id}}">
+    <text style="font-size:32rpx;">{{item.doneToday ? '☑' : '☐'}}</text>
+    <view class="grow">
+      <text class="tname {{item.doneToday ? 'done' : ''}}">{{item.name}}</text>
+      <text class="muted small" style="display:block;">{{item.m}}<text wx:if="{{item.od}}" class="danger"> · 已逾期{{item.od}}天</text><text wx:if="{{item.doneToday}}"> · 今天完成</text></text>
+      <text wx:if="{{item.desc}}" class="desc">{{item.desc}}</text>
+    </view>
+    <text wx:if="{{item.proc && !item.doneToday}}" class="tag amber">工序</text>
+  </view>
+
+  <view class="sec">进行中 · 挂起 · 待定</view>
+  <view wx:if="{{!waitL.length}}" class="muted small" style="margin:0 4rpx 10rpx;">没有挂起或待定的事项</view>
+  <view class="trow" wx:for="{{waitL}}" wx:key="id" bindtap="tap" data-id="{{item.id}}">
+    <text style="font-size:32rpx;">{{item.pend ? '◇' : '◌'}}</text>
+    <view class="grow">
+      <text class="tname">{{item.name}}</text>
+      <text class="muted small" style="display:block;">{{item.m}}<text wx:if="{{!item.pend}}"> · 已等待{{item.wd}}天</text><text wx:else> · 日期未定</text></text>
+      <text wx:if="{{item.desc}}" class="desc">{{item.desc}}</text>
+    </view>
+    <text wx:if="{{item.pend && item.proc}}" class="tag amber">工序</text>
+    <text class="tag purple">{{item.pend ? '待定' : '等待中'}}</text>
+  </view>
+
+  <view class="sec">即将到来</view>
+  <view wx:if="{{!upL.length}}" class="muted small" style="margin:0 4rpx 10rpx;">暂无</view>
+  <view class="trow" wx:for="{{upL}}" wx:key="id" bindtap="tap" data-id="{{item.id}}">
+    <text style="font-size:30rpx;">◷</text>
+    <view class="grow">
+      <text class="tname">{{item.name}}</text>
+      <text class="muted small" style="display:block;">{{item.m}} · {{item.dTxt}}</text>
+      <text wx:if="{{item.desc}}" class="desc">{{item.desc}}</text>
+    </view>
+    <text class="badge warn">{{item.left === 1 ? '明天' : ('还有' + item.left + '天')}}</text>
+    <text wx:if="{{item.proc}}" class="tag amber">工序</text>
+  </view>
+
+  <view class="dashed" bindtap="add">{{addLabel}}</view>
+
+  <view class="row" style="border-top:1rpx solid #E8E6DE; padding:18rpx 4rpx;" bindtap="tglArch">
+    <text class="grow" style="color:#55535E;">已归档 · {{archN}} 条</text>
+    <text class="muted small">{{archOpen ? '▲' : '▼'}}</text>
+  </view>
+  <block wx:if="{{archOpen}}">
+    <view wx:for="{{arch}}" wx:for-item="grp" wx:key="k">
+      <view class="sec">{{grp.label}}</view>
+      <view class="trow" wx:for="{{grp.items}}" wx:for-item="t" wx:key="id" bindtap="tap" data-id="{{t.id}}">
+        <text style="font-size:32rpx;">☑</text>
+        <view class="grow">
+          <text class="tname done">{{t.name}}</text>
+          <text class="muted small" style="display:block;">{{t.m}} · {{t.dTxt}}</text>
+          <text wx:if="{{t.desc}}" class="desc">{{t.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

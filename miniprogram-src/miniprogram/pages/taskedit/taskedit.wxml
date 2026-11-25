@@ -1,0 +1,56 @@
+<view class="page">
+  <block wx:if="{{dateOnly}}">
+    <view class="field"><text class="lab">日期</text>
+      <picker mode="date" value="{{date}}" bindchange="pickDate"><view>{{date}}</view></picker></view>
+    <view class="field" wx:if="{{isProc}}"><text class="lab">延迟原因(可空,如:下雨、材料没到)</text>
+      <input value="{{reason}}" bindinput="inReason" placeholder="往后改期时记入延迟流水" /></view>
+    <view class="muted small" wx:if="{{isProc}}" style="margin:0 4rpx 16rpx;">工序任务:往后改会自动记一条延迟,并顺延同阶段后续未完成工序;往前改视为提前,不记延迟。相对提醒会跟着新日期走。</view>
+    <button class="btn" bindtap="save">确定</button>
+  </block>
+  <block wx:else>
+    <view class="field"><text class="lab">任务名</text>
+      <input value="{{name}}" bindinput="inName" placeholder="例:砌三楼砖" /></view>
+    <view class="field"><text class="lab">备注(可空)</text>
+      <textarea value="{{desc}}" bindinput="inDesc" auto-height placeholder="例:砖用上次那家,联系 Mike 917-xxx" style="width:100%;" /></view>
+    <view class="field"><text class="lab">归属</text>
+      <picker mode="selector" range="{{siteNames}}" value="{{siteIdx}}" bindchange="pickSite">
+        <view>{{siteNames[siteIdx]}}</view></picker></view>
+    <view class="field" wx:if="{{stages.length}}"><text class="lab">阶段</text>
+      <picker mode="selector" range="{{stageNames}}" value="{{stageIdx}}" bindchange="pickStage">
+        <view>{{stageNames[stageIdx]}}</view></picker></view>
+    <view class="field row" wx:if="{{!(isProc && hasDate)}}">
+      <text class="grow">日期待定(不进今日和日历,只留在timeline)</text>
+      <switch checked="{{noDate}}" bindchange="togNoDate" color="#534AB7" />
+    </view>
+    <view class="muted small" wx:else style="margin:0 4rpx 12rpx;">工序任务已有日期,不可改为待定;要改期请走"修改日期"。</view>
+    <view class="field" wx:if="{{!noDate || (isProc && hasDate)}}"><text class="lab">日期</text>
+      <picker mode="date" value="{{date}}" bindchange="pickDate"><view>{{date}}</view></picker></view>
+
+    <view class="field" wx:if="{{isAdmin}}"><text class="lab">指派给(被指派人会立刻收到推送)</text>
+      <picker mode="selector" range="{{assignNames}}" value="{{assignIdx}}" bindchange="pickAssign">
+        <view>{{assignNames[assignIdx]}} ▾</view></picker></view>
+
+    <view class="field"><text class="lab">提醒(推送到微信)</text>
+      <picker mode="selector" range="{{remindNames}}" value="{{remindIdx}}" bindchange="pickRemind">
+        <view>{{remindNames[remindIdx]}} ▾</view></picker>
+      <view class="row" wx:if="{{remindNames[remindIdx] === '自定义时间'}}" style="margin-top:12rpx; gap:20rpx;">
+        <picker mode="date" value="{{remindDate}}" bindchange="pickRemindDate"><view class="chip sm">📅 {{remindDate}}</view></picker>
+        <picker mode="time" value="{{remindTime}}" bindchange="pickRemindTime"><view class="chip sm">🕗 {{remindTime}}</view></picker>
+      </view>
+      <block wx:if="{{showRecips && remindIdx > 0}}">
+        <text class="lab" style="margin-top:14rpx;">提醒谁(可多选)</text>
+        <view class="row" style="flex-wrap:wrap; gap:10rpx;">
+          <text class="chip sm" wx:for="{{recips}}" wx:key="openid" bindtap="togRecip" data-i="{{index}}"
+                style="{{item.on ? 'background:#EEEDFE;color:#3C3489;border-color:#7F77DD;' : ''}}">{{item.on ? '✓ ' : ''}}{{item.name}}</text>
+        </view>
+      </block>
+    </view>
+
+    <view class="field row" wx:if="{{!isEdit && stages.length}}">
+      <text class="grow">工序任务(改期记延迟并顺延后续)</text>
+      <switch checked="{{proc}}" bindchange="togProc" color="#534AB7" />
+    </view>
+    <button class="btn" bindtap="save">保存</button>
+    <button class="btn danger" wx:if="{{isEdit && !isProc}}" bindtap="del">删除任务</button>
+  </block>
+</view>
